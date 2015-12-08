@@ -35,12 +35,21 @@ io.on('connection', function (socket) {
     broadCastToMasters(socket.id, data, 'console');
   });
   socket.on('sendCommand', function(data) {
-    for(var i = 0; i < data.slaves.length; i++) {
-      slaves[data.slaves[i]].socket.emit("execWithReturn", {"exec" : data.exec});
+    if(data.exec == "core.pollClients()") {
+      slaves = {};
+      masters = {};
+      socket.broadcast.emit('exec', { exec: 'socket.emit("identifier", {"identifier" : window.identifier, "connectionType" : window.connectionType})'});
+    } else {
+      for(var i = 0; i < data.slaves.length; i++) {
+        slaves[data.slaves[i]].socket.emit("execWithReturn", {"exec" : data.exec});
+      }
     }
   });
   socket.on('returnValue', function(data) {
     broadCastToMasters(socket.id, data, 'returnValue');
+  });
+  socket.on('screenshot', function(data) {
+    broadCastToMasters(socket.id, data, 'screenshot');
   });
   function allClients() {
     var clients = [];
