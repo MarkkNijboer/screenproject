@@ -15,7 +15,7 @@ function handler (req, res) {
   });
 }
 
-app.listen(8181);
+app.listen(80);
 
 var slaves = {};
 var masters = {};
