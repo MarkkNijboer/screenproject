@@ -15,7 +15,7 @@ function handler (req, res) {
   });
 }
 
-app.listen(8080);
+app.listen( process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3002, process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
 
 var slaves = {};
 var masters = {};
