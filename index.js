@@ -15,7 +15,7 @@ function handler (req, res) {
   });
 }
 
-app.listen(8080, "127.0.0.1");
+app.listen(8080);
 
 var slaves = {};
 var masters = {};
