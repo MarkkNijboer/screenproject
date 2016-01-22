@@ -1,14 +1,21 @@
 var app = require('http').createServer(handler)
-var io = require('socket.io').listen(app);
+var io = require('socket.io')(app);
+var fs = require('fs');
 
 function handler (req, res) {
-  console.log("Yehh");
+  fs.readFile(__dirname + '/index.html',
+  function (err, data) {
+    if (err) {
+      res.writeHead(500);
+      return res.end('Error loading index.html');
+    }
+
+    res.writeHead(200);
+    res.end(data);
+  });
 }
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
-var port = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3002;
-app.listen( port, server_ip_address, function () {
-  console.log( "Listening on " + server_ip_address + ", server_port " + port )
-});
+
+app.listen(8080, "127.0.0.1");
 
 var slaves = {};
 var masters = {};
